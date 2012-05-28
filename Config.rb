@@ -21,7 +21,7 @@ class S3PhotoConfig
   	@photo_gallery = true
   	@appfiles_path = "app_files"
   	@copyright_text = "Great Pics Ltd 2012"
-  	@site_title = "My Great Pics!"
+  	@site_title = "My Great Pics!!"
   	@navigation_items = [{name: "Home", url: "http://MySitesUrl"},{name: "Blog", url: "http://MySitesUrl/blog.html"},{name: "About", url: "http://MySitesUrl/about.html"},{name: "Contact", url: "http://MySitesUrl/contact.html"}]
   end
 
