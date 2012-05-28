@@ -1,0 +1,228 @@
+
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+    <meta name="description" content=""> 
+    <meta name="author" content=""> 
+ 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements --> 
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]--> 
+ 
+    <!-- Le styles --> 
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="jquery.lightbox-0.5.css" media="screen" />
+    <style type="text/css"> 
+      body {
+        padding-top: 60px;focal_length
+      }
+      .media-grid li {
+        display: inherit;
+        float: left;
+        height:150px;
+      }
+      .folder_link {
+        cursor: pointer;
+      }
+    </style> 
+ 
+    <!-- Le fav and touch icons --> 
+    <link rel="shortcut icon" href="images/favicon.ico"> 
+  </head> 
+ 
+  <body> 
+ 
+    <div class="topbar"> 
+      <div class="topbar-inner"> 
+        <div class="container-fluid"> 
+          <a class="brand" href="/"></a> 
+          <ul class="nav"> 
+             
+          </ul> 
+          <p class="pull-right"></p> 
+        </div> 
+      </div> 
+    </div> 
+ 
+    <div class="container-fluid"> 
+      <div class="sidebar"> 
+        <div class="well"> 
+          <h5>Folders</h5> 
+          <ul id="placeholder_navigation"></ul>
+        </div> 
+      </div> 
+      <div class="content"> 
+        <ul class="breadcrumb" id="placeholder_breadcrumb"></ul>
+
+        <ul id="placeholder_images" class="media-grid"></ul>
+        
+        <div id="placeholder_footer"> 
+        </div> 
+      </div> 
+    </div> 
+ 
+  </body>
+
+  <script src="config.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script src="jquery.lightbox-0.5.min.js"></script>
+
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  <script id="folders_template" type="text/x-jquery-tmpl">
+    
+    {{each(i, folder) folders}}
+      <li>
+        <div class='folder_link' this-data='${JSON.stringify(folder)}'>${name}</div>
+      </li>
+    {{/each}}
+
+  </script>
+  
+  <script id="images_template" type="text/x-jquery-tmpl">
+
+    {{each(i, file) files}}
+      <li>
+        <span>
+          <a href="${config.url}${path}/${get_file_url(name, file, 'show_')}">
+            <img class="thumbnail" src="${config.url}${path}/${get_file_url(name, file, 'thumb_')}" />
+          </a>
+        </span>
+      </li>
+    {{/each}}
+        
+  </script>
+  
+  <script id="breadcrumb_template" type="text/x-jquery-tmpl">
+
+    <li><a class='breadcrumb_link' href="#" this-data='${JSON.stringify(this.data)}'>${name}</a> <span class="divider">/</span></li>
+
+  </script>
+
+  <script id="footer_template" type="text/x-jquery-tmpl">
+
+    <footer> 
+      <p>&copy; ${copyright_text}</p> 
+    </footer>
+  </script>
+
+  <script id="top_nav_template" type="text/x-jquery-tmpl">
+   {{each(i, nav) navigation_items}}
+    <li><a href="${nav.url}">${nav.name}</a></li> 
+    {{/each}}
+  </script>
+
+  
+  <script>
+  var the_json;
+
+
+  function render_page(data)
+  {
+    //console.log(data);
+    add_item_to_breadcrumb(data);
+    add_folders_to_navigation(data);
+    add_files_to_page(data);
+  }
+ 
+  function render_without_breadcrumb(data)
+  {
+    //Breadcrumb already rendered
+    //console.log(data);
+    add_folders_to_navigation(data);
+    add_files_to_page(data);
+  }
+ 
+ function add_files_to_page(data)
+  {    
+    $("#placeholder_images").empty()
+    $("#images_template").tmpl(data).appendTo("#placeholder_images"); 
+    
+    $('#placeholder_images a').lightBox({fixedNavigation:true});
+    //Add a click event here
+    //Will be to view the image
+  }
+  
+  function add_item_to_breadcrumb(data)
+  {
+    $("#breadcrumb_template").tmpl(data).appendTo("#placeholder_breadcrumb");
+    
+    $('.breadcrumb_link').unbind('click').click(function() {
+      //var name = this.getAttribute("folder-name");
+      var el = $('.breadcrumb_link');
+      var el_index = el.index(this);
+      var elements = $(".breadcrumb_link:gt("+el_index+")");
+      elements.parent().remove();
+
+      var child_json = jQuery.parseJSON(this.getAttribute("this-data"));
+      //console.log(child_json);
+      render_without_breadcrumb(child_json);
+    });
+  }
+
+  function add_folders_to_navigation(data)
+  {
+    $("#placeholder_navigation").empty()
+    var _data = data;
+    console.log(_data.folders);
+    _data.folders = $(_data.folders).sort(sortJsonName);
+
+    $("#folders_template").tmpl(_data).appendTo("#placeholder_navigation");
+    
+    $('.folder_link').click(function() {
+      var child_json = jQuery.parseJSON(this.getAttribute("this-data"));
+      render_page(child_json)
+    });
+  }
+
+  function set_config_text_items(folder_name, file_path, prefix)
+  {
+    document.title = config.site_title;
+    $(".brand").html(config.site_title);
+    
+    $("#top_nav_template").tmpl(config).appendTo(".nav");
+    $("#footer_template").tmpl(config).appendTo("#placeholder_footer");
+    
+  }
+
+  function get_file_url(folder_name, file_path, prefix)
+  {
+    if(folder_name == "Home")
+    {
+      return file_path.replace(config.landingpage_delimiter, prefix+config.landingpage_delimiter);
+    }
+    else
+    {
+      return prefix + file_path;
+    }
+  }
+
+  function sortJsonName(a,b){  
+        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;  
+  };  
+
+  $(document).ready(function()
+  {
+    $.ajax({
+        url: "images.json",
+        dataType: "json",
+        success: function(data)
+        {
+          the_json = data;
+          set_config_text_items();
+          render_page(the_json);
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+          //console.log(textStatus);
+        }
+    });
+  });
+  </script>
+</html>

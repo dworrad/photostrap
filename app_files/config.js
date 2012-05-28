@@ -1,0 +1,1 @@
+var config = {landingpage_delimiter: 'lp_',copyright_text: 'PhotoStrap 2012',site_title: 'PhotoStrap',url: 'http://testing.worrad.me.s3-eu-west-1.amazonaws.com',navigation_items: [{"name":"Home","url":"http://testing.worrad.me.s3-website-eu-west-1.amazonaws.com/"},{"name":"Blog","url":"http://damian.worrad.me/"},{"name":"About","url":"http://damian.worrad.me/about.html"}]}
