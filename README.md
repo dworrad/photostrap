@@ -13,20 +13,33 @@ Config
 @access_key - Your AWS Access Key
 
 @secret_access - Your AWS Secret 
+
 @path - This is the path to the pictures you want to backup/show. Generally this will be something like  "/home/myusername/Pictures"
+
 @bucket_name - This is the name of the S3 bucket you have created to host your files e.g "My.Bucket.Name"
+
 @thumb_pixels - This is the size (in pixels) of the longest side when reduced for thumbnails. Default 128
+
 @show_pixels - This is the size (in pixels) of the longest side when reduced for show images. 
 These show images are the images that the user sees when clicking on the image. Default 600
+
 @private_delimiter - The delimeter used to identify private (only original backed up with private permissions) images that won't be shown on the
 created web site. Default "_" e.g _myimage01.jpg is private where myimage01.jpg is public.
+
 @landingpage_delimiter - Use this to identify images that you want to be used on the sites home "splash" page. Default "lp_" e.g lp_myimage01.jpg will appear on the sites homepage.
+
 @save_original - If you want to back up the original image (in the original size) as well as the thumbnail and show resized images. Default true. To speed things up set this to false, and you can set to true at a later date.
+
 @supported_extensions - Array. File extensions to search for. Defualt ["jpg","png"]
+
 @photo_gallery - Set this to false if you want to backup your original images without creating a "web front end" to view pictures. Default true
+
 @appfiles_path = Where the "web front end" files are stored. These get transfered at the end of the process. Default "app_files"
+
 @copyright_text - Copyright text to display at the bottom of the site.
+
 @site_title - The title of your site.
+
 @navigation_items - Array. Items to add to the top navigation of your site. e.g [{name: "Nav Item 1", url: "http://MySitesUrl/somewhere1.html"},{name: "Nav Item 2", url: "http://MySitesUrl/somewhere2.html"}]
 
 Usage
