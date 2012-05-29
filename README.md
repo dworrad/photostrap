@@ -48,3 +48,4 @@ Once finished (yes you have to wait until fully completed as app files get copie
 
 <h3>Roadmap</h3>
 I'd like to add several bits including - basic auth layer, comments, geo data... and a few other bits.... If I can find some time.
+Also might add support for github hosting
