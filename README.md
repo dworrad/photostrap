@@ -11,6 +11,7 @@ Config
  The config is set in Config.rb. The config items must be present and cannot be deleted or left empty. If you are unsure then leave the default value in place.
 
 @access_key - Your AWS Access Key
+
 @secret_access - Your AWS Secret 
 @path - This is the path to the pictures you want to backup/show. Generally this will be something like  "/home/myusername/Pictures"
 @bucket_name - This is the name of the S3 bucket you have created to host your files e.g "My.Bucket.Name"
