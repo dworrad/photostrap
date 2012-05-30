@@ -1,5 +1,7 @@
 <h2>Photostrap</h2>
 Create a "Twitter bootstraped" personal photo site with all your personal photos (you can also set individual folders and images as private). Check out the <a href="http://testing.worrad.me.s3-website-eu-west-1.amazonaws.com/" target="_blank">example</a> site. It "backs up" all your photos too.
+I created photostrap because every other way of sharing and backing up that I trialled had issues. I wanted 3 things from a cloud photo solution - To still own the data, One click upload, Browsable and backed up, Reasonable cost. So I created Photostrap which uses Ruby, Twitter Bootstrap and Amazon S3.
+
 
 <h3>Pre Reqs</h3>
 <b>Gems</b> - The following gems need to be installed. AWS/S3, JSON, RMagick, exifr
